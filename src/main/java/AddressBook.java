@@ -1,6 +1,6 @@
 /**
  * UC1:- Ability to create a Contacts in Address Book with first and last names,
- *       address, city, state, zip, phone number and email...
+ * address, city, state, zip, phone number and email...
  * 
  * UC2:- Ability to add a new Contact to Address Book
  * 
@@ -11,15 +11,18 @@
  * UC5:- Ability to add multiple person to Address Book
  * 
  * UC6:- Refactor to add multiple Address Book to the System. 
- *       Each Address Book has a unique Name - Use Console to add new Address Book 
- *       Maintain Dictionary of Address Book Name
+ * Each Address Book has a unique Name - Use Console to add new Address Book 
+ * - Maintain Dictionary of Address Book Name
  * 
  * UC7:- Ability to ensure there is no Duplicate Entry of the same Person in a particular
- *       Address Book
+ * Address Book
  * 
  * UC8:- Ability to search Person in a City or State across the multiple AddressBook
  * 
+ * UC9:- Ability to view Persons by City or State 
  * 
+ * UC10:- Ability to get number of contact persons i.e. count by City or State
+		- Search Result will show count by city and by state by using java streams
  * @author user -Veeresh
  *
  */
@@ -29,7 +32,13 @@ import java.util.stream.Collectors;
 
 public class AddressBook {
 
+	/**
+	 * creating person object of contactDetails class
+	 */
 	ContactDetails person = new ContactDetails();
+	/**
+	 * Creating a List of ContactDetails using ArrayList
+	 */
 	List<ContactDetails> contactDetailsList = new ArrayList<>();
 
 	/**
@@ -40,17 +49,28 @@ public class AddressBook {
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Enter the number of contacts you want to enter");
 		int number = scanner.nextInt();
+		/**
+		 * for loop will use if we enter the number of contacts that number of times the
+		 * for loop will execute
+		 */
 		for (int i = 0; i < number; i++) {
 
 			/**
-			 * checking the duplicate contact by contact name.
+			 * checking the duplicate contacts of person by contact first name because there
+			 * is no Duplicate Entry of the same Person in a particular Address Book
 			 */
 			System.out.println("Enter the first name of person");
 			String fName = scanner.next();
+			/**
+			 * if else condition is used to check the same person is exist or not
+			 */
 			if (fName.equals(person.getFirstName())) {
 				System.out.println("The entered person is already exist. Enter new name");
 			} else {
 				System.out.println("Enter the contact details of person ");
+				/**
+				 * calling method wrireContact() to enter all the contact details
+				 */
 				writeContact();
 				System.out.println("contact added Successfully");
 			}
@@ -78,6 +98,9 @@ public class AddressBook {
 		long mobileNumber = scanner.nextLong();
 		System.out.println("Enter EmailId : ");
 		String emailId = scanner.next();
+		/**
+		 * storing or adding all the contactDetails to the person
+		 */
 		person = new ContactDetails(firstName, lastName, address, city, state, zipCode, mobileNumber, emailId);
 		contactDetailsList.add(person);
 	}
@@ -89,8 +112,20 @@ public class AddressBook {
 	 * @param name -passing name
 	 */
 	public void searchByName(String name) {
+		/**
+		 * creating Stream from list of contactDetails. Filter operation produces a new
+		 * stream that contains elements of the original stream that pass a given
+		 * test(specified by a Predicate). filter(),is a Intermediate operations return
+		 * a new stream on which further processing can be done. here filter is used to
+		 * search particular name of a person and the filtered stream is creates a list
+		 * and will collect in a contactDetails using collector
+		 */
 		List<ContactDetails> collect = contactDetailsList.stream().filter(p -> p.getFirstName().equalsIgnoreCase(name))
 				.collect(Collectors.toList());
+		/**
+		 * ForEach() method is used and it is a Terminal operations mark the stream as
+		 * consumed, after which point it can no longer be used further.
+		 */
 		for (ContactDetails contact : collect) {
 			System.out.println("Search result: " + contact);
 		}
@@ -125,9 +160,24 @@ public class AddressBook {
 	}
 
 	/**
-	 * Declaring The Edit Contact Method TO Edit The Details Of Contact The Details
-	 * Of Contact Edit By Using FirstName If First Name Is Match The Contact Will
-	 * Edit
+	 * Declaring The Count Contacts Method By City Name Using Java Streams To Count
+	 * The Contacts By using City Name
+	 * 
+	 * @param cityName -passing the city name to count the contacts method
+	 */
+	public void countContactsByUsingCity(String cityName) {
+		long count = 0;
+		long count1 = contactDetailsList.stream().filter(g -> g.getCity().equalsIgnoreCase(cityName)).count();
+		for (ContactDetails contact : contactDetailsList) {
+			count1 = count1 + count;
+		}
+		System.out.println("Contact List :" + count1);
+
+	}
+
+	/**
+	 * Declaring The Edit Contact Method To Edit The Details Of Contact Edit By
+	 * Using FirstName If First Name Is Match The Contact Will Edit
 	 */
 	public void editContact() {
 		System.out.println("Enter firstname of contact you want edit");
@@ -181,7 +231,7 @@ public class AddressBook {
 							case 6:
 								System.out.println("Enter new Phone Number");
 								int newPNumber = scanner.nextInt();
-								contactDetailsList.get(i).setMobileNo(newPNumber);
+								contactDetailsList.get(i).setMobileNumber(newPNumber);
 								break;
 							case 7:
 								System.out.println("Enter new Email");
@@ -207,9 +257,8 @@ public class AddressBook {
 	}
 
 	/**
-	 * Declaring Delete Contact Method TO delete The Details Of Contact The Details
-	 * Of Contact Delete By Using FirstName If First Name Is Match Then Contact Will
-	 * Delete
+	 * Declaring Delete Contact Method To delete The Details Of Contact Delete By
+	 * Using FirstName If First Name Is Match Then Contact Will Delete
 	 */
 	public void deleteContact() {
 		System.out.println("Enter the first name of contact you want to delete");
@@ -226,10 +275,10 @@ public class AddressBook {
 	}
 
 	/**
-	 * create method searchByOptions() by searching the person using option like
-	 * name, city, state and from previous menu
+	 * create method viewByOptions() is used to view the options by searching the
+	 * person using option like name, city, state and from previous menu
 	 */
-	public void searchByOptions() {
+	public void viewByOptions() {
 		Scanner scanner = new Scanner(System.in);
 		while (true) {
 			System.out.println("Enter\n 1. By name\n 2. By city\n 3. By state\n 4. for previous menu");
@@ -249,7 +298,7 @@ public class AddressBook {
 			case 3:
 				System.out.println("Enter state: ");
 				String state = scanner.nextLine();
-				System.out.println(state);
+				searchByState(state);
 				break;
 			case 4:
 				return;

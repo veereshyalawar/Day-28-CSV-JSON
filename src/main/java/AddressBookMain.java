@@ -35,7 +35,7 @@ public class AddressBookMain {
 				obj1.printContactsInBook();
 				break;
 			case 6:
-				obj2.searchByOptions();
+				obj2.viewByOptions();
 				break;
 			case 0:
 				System.exit(0);
@@ -49,7 +49,7 @@ public class AddressBookMain {
 	/**
 	 * Main method for manipulation AddressBookCollection
 	 * 
-	 * @param args - Default Java param (Not used)
+	 * @param args - Default Java @param (Not used)
 	 */
 	public static void main(String[] args) {
 		AddressBookMain addressBookMain = new AddressBookMain();
