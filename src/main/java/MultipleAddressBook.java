@@ -14,7 +14,7 @@ public class MultipleAddressBook {
 	 */
 	public void addAddressBook() {
 		System.out.println("Enter Name of new Address Book: ");
-		@SuppressWarnings("resource")
+	
 		Scanner scanner = new Scanner(System.in);
 		String bookName = scanner.next();
 		if (addressBookMap.containsKey(bookName)) {
@@ -37,6 +37,7 @@ public class MultipleAddressBook {
 	 */
 	public void addContact() {
 		System.out.println("Enter the name of Address book to add the contact.");
+		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 		String newContact = scanner.nextLine();
 		AddressBook addressBook = addressBookMap.get(newContact);
