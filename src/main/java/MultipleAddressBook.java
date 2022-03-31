@@ -1,4 +1,3 @@
-
 import java.util.*;
 
 public class MultipleAddressBook {
@@ -7,14 +6,13 @@ public class MultipleAddressBook {
 	 * Java HashMap class implements the Map interface which allows us to store key
 	 * and value pair, where keys should be unique.
 	 */
-	Map<String, AddressBook> addressBookMap = new HashMap<String, AddressBook>();
+	Map<String, AddressBook> addressBookMap = new HashMap<>();
 
 	/**
-	 * create method addAddressBook
+	 * created method addAddressBook() to add a new values in addressBook
 	 */
 	public void addAddressBook() {
 		System.out.println("Enter Name of new Address Book: ");
-	
 		Scanner scanner = new Scanner(System.in);
 		String bookName = scanner.next();
 		if (addressBookMap.containsKey(bookName)) {
@@ -32,93 +30,70 @@ public class MultipleAddressBook {
 	}
 
 	/**
-	 * Declaring The Add Contact Method And Entering The Contact Details By Using
-	 * Scanner Class And Printing The Contact Details Of Person
+	 * create method addressBookFunctions() to edit ,delete the contact in
+	 * addresbook
 	 */
-	public void addContact() {
-		System.out.println("Enter the name of Address book to add the contact.");
-		@SuppressWarnings("resource")
+	public void addressBookFunctions() {
+		System.out.println("Enter the name of Address book to add, edit or delete the contact.");
 		Scanner scanner = new Scanner(System.in);
-		String newContact = scanner.nextLine();
-		AddressBook addressBook = addressBookMap.get(newContact);
-		if (addressBook == null) {
-			System.out.println("No book found");
-
-		} else {
-			addressBookMap.get(newContact).addContact();
+		String bookName = scanner.nextLine();
+		if (addressBookMap.containsKey(bookName)) {
+			addressBookMap.get(bookName);
+			System.out.println("Enter book is present choose the options below to do certain function");
+			while (true) {
+				System.out.println("Enter\n 1. add Contact\n 2. edit contact\n 3. delete contact\n 4. previous menu");
+				int choice = scanner.nextInt();
+				switch (choice) {
+				case 1:
+					addressBookMap.get(bookName).addContact();
+					break;
+				case 2:
+					addressBookMap.get(bookName).editContact();
+					break;
+				case 3:
+					addressBookMap.get(bookName).deleteContact();
+					break;
+				case 4:
+					return;
+				default:
+					System.out.println("Entered choice is incorrect!.. please enter correct choice");
+				}
+			}
 		}
 	}
 
 	/**
-	 * Declaring The Edit Contact Method TO Edit The Details Of Contact The Details
-	 * Of Contact Edit By Using FirstName If First Name Is Match The Contact Will
-	 * Edit
+	 * create method deleteBook to delete the name of the addressbook to delete
 	 */
-	public void editContactInBook() {
-		System.out.println("Enter Name of Address Book you want to edit: ");
-		Scanner scanner = new Scanner(System.in);
-		String editBookName = scanner.next();
-		if (addressBookMap.containsKey(editBookName)) {
-			addressBookMap.get(editBookName).editContact();
-		} else {
-			System.out.println("AddressBook doesn't exist, Please enter correct name.");
-			editContactInBook();
-		}
-	}
-
-	/**
-	 * Declaring Delete Contact Method TO delete The Details Of Contact The Details
-	 * Of Contact Delete By Using FirstName If First Name Is Match Then Contact Will
-	 * Delete
-	 */
-	public void deleteAddressBook() {
-		System.out.println("Enter Name of Address Book you want to delete: ");
+	public void deleteBook() {
+		System.out.println("Enter the name of Address book to delete.");
 		Scanner scanner = new Scanner(System.in);
 		String bookName = scanner.next();
 		if (addressBookMap.containsKey(bookName)) {
 			addressBookMap.remove(bookName);
 		} else {
-			System.out.println("AddressBook doesn't exist, Please enter correct name.");
-			deleteAddressBook();
+			System.out.println("No book found");
 		}
 	}
 
 	/**
-	 * Declaring Delete Contact Method TO delete The Details Of Contact The Details
-	 * Of Contact Delete By Using FirstName If First Name Is Match Then Contact Will
-	 * Delete
-	 */
-	public void deleteContactInBook() {
-		System.out.println("Enter Name of Address Book you want to delete the contacts in it: ");
-		Scanner scanner = new Scanner(System.in);
-		String bookName = scanner.next();
-		if (addressBookMap.containsKey(bookName)) {
-			addressBookMap.get(bookName).deleteContact();
-		} else {
-			System.out.println("AddressBook doesn't exist, Please enter correct name.");
-			deleteContactInBook();
-		}
-	}
-
-	/**
-	 * create method printBook() to print the values
+	 * create method printBook to see if addressbook is present in a program
 	 */
 	public void printBook() {
-		System.out.println("These are AddressBooks in program.");
+		System.out.println("These are AddressBooks in present program.");
 		for (Map.Entry<String, AddressBook> entry : addressBookMap.entrySet()) {
 			System.out.println(entry.getKey() + "[]");
 		}
 	}
 
 	/**
-	 * create method printContactsInBook() to print the contacts
+	 * create method printContactsInBook() that prints the contacts ina a book
 	 */
 	public void printContactsInBook() {
 		for (Map.Entry<String, AddressBook> entry : addressBookMap.entrySet()) {
 			System.out.println("The contacts in the Book of < " + entry.getKey() + " > are!...");
 			System.out.println(entry.getValue().contactDetailsList);
 		}
-		System.out.println(" ");
 	}
 
 }
